@@ -1,3 +1,4 @@
+var Vote = require("./Vote.js").Vote;
 var SongManager = function() {
 	var songs = [];
 	var songCounter = 0;
@@ -5,7 +6,14 @@ var SongManager = function() {
 	var addSong = function(song) {
 		// ADD NEW PROPERTIES:
 		song.songID = songCounter;
-		song.votes = 0;
+		song.votes = [];
+		song.getVoteNum = function(){
+			var votesToReturn = 0;
+			for (var i = 0; i < votes.length; ++i) {
+				votesToReturn += votes[i].number; // EITHER +1/-1
+			}
+			return votesToReturn;
+		}
 		songs.push(song);
 		songCounter++;
 		sort();
@@ -15,16 +23,21 @@ var SongManager = function() {
 		songs.sort(compareVotes);
 	}
 
-	var compareVotes = function (s1, s2){
-		return (a.votes > b.votes) ? 1 : ((b.votes > a.votes) ? -1 : 0);
+	var compareVotes = function (s1, s2) {
+		return (s1.getVoteNum > s2.getVoteNum) ? 1 : ((s2.getVoteNum > s1.getVoteNum) ? -1 : 0);
 	}
 
 	var postVote = function(data) {
 		var songToVote = findSongById(data.songID);
-		if (songToVote != false) {
-			// UPDATE VOTES!!
-			songToVote.votes += data.voteNum;
-			sort();
+		var index = contains(songToVote.votes, data.userID); 
+		if (!index) { // NO VOTE EXISTS
+			if (songToVote != false) {
+				songToVote.votes.push(new Vote(data.userID, data.vote));
+				sort();
+			}
+		} else {
+			// USER ALREAD VOTED ON THIS SONG: (UPDATE)
+			songToVote.votes[index].number = data.vote.number;
 		}
 	}
 
@@ -35,6 +48,15 @@ var SongManager = function() {
 			}
 		}
 		return false;
+	}
+	
+	function contains(a, obj) {
+	    for (var i = 0; i < a.length; i++) {
+	        if (a[i] === obj) {
+	            return i;
+	        }
+	    }
+	    return false;
 	}
 
 	return {
