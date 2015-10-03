@@ -19,12 +19,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
 	extended : false
 }));
-app.configure(function() {
-	app.use(express.static(path.join(__dirname, 'public')));
-});
-
-var server_port = process.env.OPENSHIFT_NODEJS_PORT || 8080;
-var server_ip_address = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1';
+app.use(express.static(path.join(__dirname, 'public')));
 
 var setEventHandlers = function() {
 	socket.sockets.on("connection", onInit);
@@ -43,7 +38,7 @@ var onConnect = function(data) {
 	});
 }
 
-var onAddSong = function(data) {	
+var onAddSong = function(data) {
 	songManager.addSong(data);
 	publishSongs();
 }
