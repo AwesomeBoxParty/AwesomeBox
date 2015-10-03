@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { debounce } from 'throttle-debounce';
 const giphy = require('giphy-api-without-credentials')();
 
-import GifSwatch from './GifSwatch';
+// import SongSwatch from './SongSwatch';
 
 export default class SearchSidebar extends Component {
 
@@ -52,7 +52,7 @@ export default class SearchSidebar extends Component {
       previewGifUrl: r.images.fixed_height_small.url,
       originalGifUrl: r.images.original.url,
     };
-    return (<GifSwatch {...props} />);
+    return (<SongSwatch {...props} />);
   }
 
   render() {

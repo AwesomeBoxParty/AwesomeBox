@@ -1,33 +1,10 @@
 import React, { Component, PropTypes } from 'react';
-import { DragSource } from 'react-dnd';
-import DraggableTypes from '../constants/DraggableTypes';
 
-// Decorate component with DragSource functionality
-// See react-dnd docs: http://gaearon.github.io/react-dnd/docs-overview.html
-@DragSource(DraggableTypes.GIF, { // implement DragSource interface
-  beginDrag(props, monitor, component) {
-    // return data that identifies this draggable
-    const item = {
-      id: props.id,
-      originalGifUrl: props.originalGifUrl,
-    };
-    console.log('Dragging', item);
-    return item;
-  }
-}, function registerWithDnD(connect, monitor) {
-  return { // These props are injected into our component
-  connectDragSource: connect.dragSource(),
-  isDragging: monitor.isDragging()
-  };
-})
 export default class GifSwatch extends Component {
   static propTypes = {
     thumbnailUrl: PropTypes.string.isRequired,
     previewGifUrl: PropTypes.string.isRequired,
     originalGifUrl: PropTypes.string.isRequired,
-    // Injected by React DnD:
-    connectDragSource: PropTypes.func.isRequired,
-    isDragging: PropTypes.bool.isRequired
   };
 
   constructor() {
