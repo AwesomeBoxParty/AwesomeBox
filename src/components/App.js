@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import { SoundPlayerContainer } from 'react-soundplayer/addons';
-import { PlayButton, Progress, Icons } from 'react-soundplayer/components';
+import { PlayButton, Progress, Timer, Icons, Cover } from 'react-soundplayer/components';
 
 
 // import Playlist from './Playlist';
-import AwesomePlayer from './AwesomePlayer';
 import SearchSidebar from './SearchSidebar';
 
 import clientId from '../constants/secrets.js';
@@ -32,8 +31,10 @@ export class App extends Component {
               streamUrl={streamUrl}
               clientId={clientId}
             >
-              <PlayButton
-              />
+              <PlayButton />
+              <Cover />
+              <Progress />
+              <Timer />
 
             </SoundPlayerContainer>
           </main>
