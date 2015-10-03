@@ -43,7 +43,7 @@ var onConnect = function(data) {
 	});
 }
 
-var onAddSong = function(data) {
+var onAddSong = function(data) {	
 	songManager.addSong(data);
 	publishSongs();
 }

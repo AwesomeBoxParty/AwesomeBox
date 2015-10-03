@@ -17,4 +17,4 @@ var Vote = function(user , number) {
         }
 	}
 };
-exports.Votes = Votes;
+exports.Vote = Vote;

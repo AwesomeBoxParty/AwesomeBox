@@ -30,7 +30,7 @@ var SongManager = function() {
 	var postVote = function(data) {
 		var songToVote = findSongById(data.songID);
 		var index = contains(songToVote.votes, data.userID); 
-		if (!index) { // NO VOTE EXISTS
+		if (!index) { // NO VOTE EXISTS: (False)
 			if (songToVote != false) {
 				songToVote.votes.push(new Vote(data.userID, data.vote));
 				sort();
