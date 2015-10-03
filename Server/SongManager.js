@@ -71,4 +71,5 @@ var SongManager = function() {
         }
 	}
 };
-exports.SongManager = SongManager;
+
+module.exports.SongManager = SongManager;

@@ -1,4 +1,4 @@
-var Vote = function(user , number) {
+var Votes = function(user , number) {
 	var number = number;
 	var user = user;
 
