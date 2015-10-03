@@ -24,20 +24,14 @@ var SongManager = function() {
 	}
 
 	var compareVotes = function (s1, s2) {
-		return (s1.getVoteNum > s2.getVoteNum) ? 1 : ((s2.getVoteNum > s1.getVoteNum) ? -1 : 0);
+		return (s1.getVoteNum() > s2.getVoteNum()) ? 1 : ((s2.getVoteNum() > s1.getVoteNum()) ? -1 : 0);
 	}
 
 	var postVote = function(data) {
 		var songToVote = findSongById(data.songID);
-		var index = contains(songToVote.votes, data.userID); 
-		if (!index) { // NO VOTE EXISTS: (False)
-			if (songToVote != false) {
-				songToVote.votes.push(new Vote(data.userID, data.vote));
-				sort();
-			}
-		} else {
-			// USER ALREAD VOTED ON THIS SONG: (UPDATE)
-			songToVote.votes[index].number = data.vote.number;
+		if (songToVote != false) {
+			songToVote.votes.push(new Vote(data.userID, data.vote));
+			sort();
 		}
 	}
 
