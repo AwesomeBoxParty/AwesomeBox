@@ -19,16 +19,19 @@ export class App extends Component {
     this.state = {
       playlist: [
         {
+          id: 1,
           title: "Thriller",
           duration: 5000,
           stream_url: "thriller.mp3"
         },
         {
+          id: 2,
           title: "Beat It",
           duration: 6000,
           stream_url: "beat_it.mp3"
         },
         {
+          id: 3,
           title: "Billy Jean",
           duration: 7000,
           stream_url: "billy_jean.mp3"
@@ -51,20 +54,7 @@ export class App extends Component {
         <div className="content-container">
 
           <main className="main">
-<<<<<<< HEAD
-            <SoundPlayerContainer
-              streamUrl={streamUrl}
-              clientId={clientId}
-            >
-              <PlayButton />
-              <Cover />
-              <Progress />
-              <Timer />
-
-            </SoundPlayerContainer>
-=======
             <Playlist playlist={this.state.playlist} />
->>>>>>> Playlist renders individual track data.
           </main>
 
           <aside className="sidebar">

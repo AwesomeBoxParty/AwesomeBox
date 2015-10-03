@@ -8,7 +8,7 @@ export default class Playlist extends Component {
   }
 
   renderTrack(track) {
-    return <PlaylistItem track={track} />
+    return <PlaylistItem track={track} key={track.id} />
   }
 
   render() {
