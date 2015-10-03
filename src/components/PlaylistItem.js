@@ -8,11 +8,12 @@ export default class PlaylistItem extends Component {
 
   render() {
     const track = this.props.track;
+
     return (
       <li>
-        title: {track.title}
-        duration: {track.duration}
-        stream_url: {track.stream_url}
+        Title: {track.title}
+        Duration: {track.duration}
+        Stream_url: {track.stream_url}
       </li>
     );
   }
