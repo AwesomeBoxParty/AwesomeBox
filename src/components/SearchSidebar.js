@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { debounce } from 'throttle-debounce';
 const giphy = require('giphy-api-without-credentials')();
+import api from '../utils/apiUtils.js';
 
-// import SongSwatch from './SongSwatch';
+import SongSwatch from './SongSwatch';
 
 export default class SearchSidebar extends Component {
 
@@ -25,14 +26,11 @@ export default class SearchSidebar extends Component {
       });
     }
 
-    giphy.search(searchString, (error, response) => {
-      if (error) {
-        console.log(error);
-      } else {
-        this.setState({
-          searchResults: response.data
-        });
-      }
+    api.searchSoundCloud(searchString, (tracks) => {
+      console.log(tracks);
+      this.setState({
+        searchResults: tracks
+      });
     });
   }
 
@@ -44,13 +42,13 @@ export default class SearchSidebar extends Component {
     });
   }
 
-  renderSwatch(r) {
+  renderSwatch(track) {
+    // console.log(track.title);
     const props = {
-      key: r.id,
-      id: r.id,
-      thumbnailUrl: r.images.fixed_height_small_still.url,
-      previewGifUrl: r.images.fixed_height_small.url,
-      originalGifUrl: r.images.original.url,
+      title: track.title,
+      artworkUrl: track.artwork_url,
+      duration: track.duration,
+      genre: track.genre,
     };
     return (<SongSwatch {...props} />);
   }
