@@ -1,7 +1,7 @@
 {
-  "name": "expedite-challenge-front-end",
+  "name": "AwesomeBox",
   "version": "0.0.0",
-  "description": "Proving grounds for wandering front-end warriors.",
+  "description": "",
   "scripts": {
     "clean": "rimraf dist",
     "build:webpack": "NODE_ENV=production webpack --config webpack.config.prod.js",
@@ -45,8 +45,8 @@
     "imports-loader": "^0.6.4",
     "normalize.css": "^3.0.3",
     "react": "0.14.0-rc1",
-    "react-dnd": "^1.1.8",
     "react-dom": "0.14.0-rc1",
+    "react-soundplayer": "^0.2.2",
     "throttle-debounce": "^0.1.1",
     "whatwg-fetch": "^0.9.0"
   }

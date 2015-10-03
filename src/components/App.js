@@ -1,18 +1,19 @@
 import React, { Component } from 'react';
-import { DragDropContext } from 'react-dnd';
-import HTML5Backend from 'react-dnd/modules/backends/HTML5';
-import urls from '../constants/urls';
+import { SoundPlayerContainer } from 'react-soundplayer/addons';
+import { PlayButton, Progress, Timer, Icons, Cover } from 'react-soundplayer/components';
 
-import GifBoard from './GifBoard';
+
+// import Playlist from './Playlist';
 import SearchSidebar from './SearchSidebar';
+
+import clientId from '../constants/secrets.js';
+const streamUrl = 'https://api.soundcloud.com/tracks/219980056/stream';
 
 import './App.scss';
 
-@DragDropContext(HTML5Backend)
 export class App extends Component {
 
   render() {
-    const logoUrl = require('../../static/images/logo.svg');
 
     return (
       <div className="App">
@@ -26,9 +27,16 @@ export class App extends Component {
         <div className="content-container">
 
           <main className="main">
-            // player
-            // playlist sorted by votes
-              // votable list items
+            <SoundPlayerContainer
+              streamUrl={streamUrl}
+              clientId={clientId}
+            >
+              <PlayButton />
+              <Cover />
+              <Progress />
+              <Timer />
+
+            </SoundPlayerContainer>
           </main>
 
           <aside className="sidebar">
@@ -36,13 +44,6 @@ export class App extends Component {
           </aside>
 
         </div>
-        <footer className="footer">
-          {<a href={urls.expediteHomepage} target="_blank">About Expedite</a>}
-          {' | '}
-          {<a href={urls.expediteCareers} target="_blank">Work at Expedite</a>}
-          {' | '}
-          {<a href={urls.expediteChallenge} target="_blank">The Expedite challenge</a>}
-        </footer>
       </div>
     );
   }
