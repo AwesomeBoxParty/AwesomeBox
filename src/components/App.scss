@@ -1,0 +1,84 @@
+.App {
+  $sidebar-width: 240px;
+
+  .masthead {
+
+    //############################
+    // display: none;
+    //############################
+
+
+    background: #eee;
+    text-align: center;
+  }
+
+  h1 {
+    margin: 0;
+    padding: 10px;
+
+    a, a:visited {
+      text-decoration: none;
+      font-weight: 200;
+      color: #333;
+    }
+
+    img {
+      margin-bottom: 10px;
+    }
+  }
+
+  .content-container {
+    position: relative;
+    padding-left: $sidebar-width;
+  }
+
+  %column {
+    position: relative;
+    float: left;
+  }
+
+  .main {
+    @extend %column;
+    width: 100%;
+    background: #777;
+    max-height: 800px;
+    overflow-y: auto;
+    // Just demonstrating how you can set a background image to a relative asset
+    // background-image: url('../../static/images/logo.svg');
+  }
+
+  .sidebar {
+    @extend %column;
+    min-height: 800px;
+    max-height: 800px;
+    width: $sidebar-width;
+    margin-left: -100%;
+    right: $sidebar-width;
+    background: #333;
+    overflow: hidden;
+  }
+
+  .footer {
+
+    //############################
+    display: none;
+    //############################
+
+    text-align: center;
+    clear: both;
+    padding: 12px 0;
+    background: #f4f4f4;
+  }
+
+  .search-input,
+  .search-result {
+    width: 100%;
+    padding: 6px 12px;
+  }
+
+  .search-results-container {
+    max-height: 750px;
+    overflow-y: auto;
+    background: #333;
+  }
+}
