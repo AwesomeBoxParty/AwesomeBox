@@ -1,0 +1,6 @@
+module.exports = {
+
+  LOAD_SONG_DATA: 'LOAD_SONG_DATA',
+  OTHER_ACTION: 'OTHER_ACTION'
+
+};

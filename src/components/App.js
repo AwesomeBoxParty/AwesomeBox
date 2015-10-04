@@ -3,6 +3,7 @@ import { SoundPlayerContainer } from 'react-soundplayer/addons';
 import { PlayButton, Progress, Timer, Icons, Cover } from 'react-soundplayer/components';
 import Sidebar from 'react-sidebar';
 import socketUtils from '../utils/socketUtils';
+import AppStore from '../stores/app-store';
 
 // import Playlist from './Playlist';
 import SearchSidebar from './SearchSidebar';
@@ -14,6 +15,12 @@ clientId = process.env.CLIENT_ID || clientId;
 
 import './App.scss';
 
+var getData = function(){
+  return {
+    songs: AppStore.getSongs()
+  };
+};
+
 export class App extends Component {
 
   constructor(props) {
@@ -23,6 +30,19 @@ export class App extends Component {
       currentTrack: null,
       sidebarOpen: false,
     };
+  }
+
+  _onChange() {
+    // update sate from stores
+    // this.setState(getData());
+  }
+
+  componentDidMount() {
+    AppStore.addChangeListener(this._onChange);
+  }
+
+  componentWillUnmount() {
+    AppStore.removeChangeListener(this._onChange);
   }
 
   addToPlaylist(track) {
