@@ -14,7 +14,7 @@ export default class SoundPlayerControls extends Component {
 
 
   render() {
-
+    console.log('rendering controls');
     return (
       <div>
         <PlayButton

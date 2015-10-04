@@ -4,10 +4,10 @@ import { PlayButton, Progress, Timer, Icons, Cover } from 'react-soundplayer/com
 import Sidebar from 'react-sidebar';
 import socketUtils from '../utils/socketUtils';
 
-// import Playlist from './Playlist';
 import SearchSidebar from './SearchSidebar';
 import Playlist from './Playlist';
 import Player from './Player';
+import CurrentSong from './CurrentSong';
 
 import clientId from '../constants/secrets.js';
 const streamUrl = 'https://api.soundcloud.com/tracks/219980056/stream';
@@ -22,6 +22,7 @@ export class App extends Component {
       playlist: [],
       currentTrack: null,
       sidebarOpen: false,
+      role: 'thrower'
     };
   }
 
@@ -39,6 +40,20 @@ export class App extends Component {
   }
 
   render() {
+
+    let player = (
+      <Player
+        track={this.state.playlist.length ? this.state.playlist[0] : null}
+      />   
+    );
+
+    if (this.state.role === 'goer') {
+      player = (
+        <CurrentSong 
+          track={this.state.playlist.length ? this.state.playlist[0] : null}
+        />
+      );
+    }
 
     const searchSidebar = (
       <SearchSidebar
@@ -59,9 +74,7 @@ export class App extends Component {
           </header>
 
           <main className="main">
-            <Player
-              track={this.state.playlist.length ? this.state.playlist[0] : null}
-            />
+            {player}
             <Playlist playlist={this.state.playlist} />
           </main>
 
