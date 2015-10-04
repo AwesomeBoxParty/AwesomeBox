@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import { SoundPlayerContainer } from 'react-soundplayer/addons';
-import { PlayButton, Progress, Timer, Icons, Cover } from 'react-soundplayer/components';
 
 import clientId from '../constants/secrets.js';
 const streamUrl = 'https://api.soundcloud.com/tracks/219980056/stream';
