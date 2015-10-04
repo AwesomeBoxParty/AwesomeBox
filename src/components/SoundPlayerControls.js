@@ -6,18 +6,29 @@ export default class SoundPlayerControls extends Component {
 
   constructor(props) {
     super(props);
+    this.state = {
+      songEnded: false,
+    };
   }
 
   getProgressValue(attrs) {
     return 100 * (this.props.currentTime / this.props.duration);
   }
 
+  handleSongEnd() {
+    if (!this.state.songEnded) {
+      this.setState({
+        songEnded: true
+      }, socketUtils.nextSong);
+    }
+  }
 
   render() {
     console.log('rendering controls');
     return (
       <div>
         <PlayButton
+          className="play-button"
           soundCloudAudio={this.props.soundCloudAudio}
           playing={this.props.playing}
           seeking={this.props.seeking} />
@@ -31,6 +42,6 @@ export default class SoundPlayerControls extends Component {
           duration={this.props.duration}
           currentTime={this.props.currentTime}/>
       </div>
-    )
+    );
   }
 }
