@@ -88,10 +88,11 @@ export class App extends Component {
         open={this.state.sidebarOpen}
         sidebar={searchSidebar}
         onSetOpen={::this.toggleSidebar}
+        touchHandleWidth={60}
       >
         <div className="App">
           <header className="masthead">
-            <h1>AwesomeBox.party</h1>
+            <h1>awesomebox.party</h1>
             <button onClick={::this.toggleSidebar}>add song</button>
           </header>
 

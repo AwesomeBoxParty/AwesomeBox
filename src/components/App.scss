@@ -1,11 +1,32 @@
 .App {
   $sidebar-width: 240px;
 
+  body {
+    font-family: sans-serif;
+  }
+
+  h1 {
+    margin: 0;
+    padding: 10px;
+    font-size: 5em;
+    font-weight: 100;
+  }
+
+  button {
+    font-size: 3em;
+  }
+
+
+
+  .play-button {
+    width: 2em;
+    height: 2em;
+  }
+
   .masthead {
     background: #eee;
     text-align: center;
   }
-
 
   .player {
     text-align: center;
@@ -15,31 +36,6 @@
   img {
     zoom: 2;
     width: 100%;
-  }
-
-  h1 {
-    margin: 0;
-    padding: 10px;
-
-    a, a:visited {
-      text-decoration: none;
-      font-weight: 200;
-      color: #333;
-    }
-
-    img {
-      margin-bottom: 10px;
-    }
-  }
-
-  .content-container {
-    position: relative;
-    padding-left: $sidebar-width;
-  }
-
-  %column {
-    position: relative;
-    float: left;
   }
 
   .main {
@@ -56,10 +52,10 @@
   }
 
   .progress-bar {
-    height: 10px;
-    width: 400px;
+    height: 2em;
+    width: 700px;
     background-color: white;
-    margin-left: auto;
+    margin: 2em auto 2em auto;
     margin-right: auto;
   }
 
@@ -68,26 +64,21 @@
     background-color: orange;
   }
 
-  .sidebar {
-    @extend %column;
-    min-height: 800px;
-    max-height: 800px;
-    width: $sidebar-width;
-    margin-left: -100%;
-    right: $sidebar-width;
-    background: #333;
-    overflow: hidden;
+  .play-timer {
+    font-size: 2em;
   }
 
-  .search-input,
-  .search-result {
+}
+
+.SearchSidebar {
+  width: 500px;
+
+  input {
     width: 100%;
-    padding: 6px 12px;
+    font-size: 2em;
   }
 
-  .search-results-container {
-    max-height: 750px;
-    overflow-y: auto;
-    background: #333;
-  }
+  
+
+
 }

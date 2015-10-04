@@ -18,6 +18,7 @@ export default class SoundPlayerControls extends Component {
     return (
       <div>
         <PlayButton
+          className="play-button"
           soundCloudAudio={this.props.soundCloudAudio}
           playing={this.props.playing}
           seeking={this.props.seeking} />
@@ -31,6 +32,6 @@ export default class SoundPlayerControls extends Component {
           duration={this.props.duration}
           currentTime={this.props.currentTime}/>
       </div>
-    )
+    );
   }
 }

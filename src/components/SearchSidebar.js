@@ -17,6 +17,10 @@ export default class SearchSidebar extends Component {
     };
   }
 
+  componentDidMount() {
+    ReactDOM.findDOMNode(this.refs.searchInput).focus()
+  }
+
   searchSoundcloud(searchString) {
 
     if (searchString === '') {
