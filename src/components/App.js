@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { SoundPlayerContainer } from 'react-soundplayer/addons';
 import { PlayButton, Progress, Timer, Icons, Cover } from 'react-soundplayer/components';
 import Sidebar from 'react-sidebar';
+import socketUtils from '../utils/socketUtils';
 
 // import Playlist from './Playlist';
 import SearchSidebar from './SearchSidebar';
@@ -25,6 +26,7 @@ export class App extends Component {
   }
 
   addToPlaylist(track) {
+    socketUtils.addSong(track);
     this.setState({
       playlist: this.state.playlist.concat(track),
       sidebarOpen: false,

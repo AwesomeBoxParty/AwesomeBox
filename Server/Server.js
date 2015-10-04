@@ -1,73 +1,70 @@
 // SETUP:
 var express = require('express');
-var bodyParser = require('body-parser');
 var app = express();
 var http = require('http').Server(app);
-var request = require('request');
 var path = require('path');
 var socket = require('socket.io')(http);
-
-// OBJECTS:
-var SongManager = require("./SongManager.js").SongManager;
-var songManager = new SongManager();
-var User = require("./User.js").User;
-
-// MEMORY:
-var PORT = process.env.PORT || 3020;
-var users = [];
-
-// SETUP:
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({
-	extended : true
-}));
-
-app.use(express.static(path.join(__dirname, '../dist')));
-
 var server_port = process.env.OPENSHIFT_NODEJS_PORT || 8080;
-var server_ip_address = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1';
+var server_ip_address = process.env.OPENSHIFT_NODEJS_IP || '0.0.0.0';
+var bodyParser = require('body-parser')
+var fs = require('fs');
+// OBJECTS:
+var SongManager = require("./SongManager").SongManager;
+var songManager = new SongManager();
 
+var User = require("./User").User;
+// MEMORY:
+var users = [];
+// SETUP:
+app.use(express.static(path.join(__dirname, '../dist')));
 var setEventHandlers = function() {
-	socket.sockets.on("connection", onInit);
+  socket.on("connect", onInit);
 };
-
 var onInit = function(client) {
-	client.on("connect", onConnect);
-	client.on("add song", onAddSong);
-	client.on("vote", onVote);
+  console.log('user connected: ', client.id);
+  onConnect(client);
+  client.on("add song", onAddSong);
+  client.on("vote", onVote);
+  socket.sockets.on('disconnect', function() {
+    console.log('user disconnected');
+  });
 };
-
 var onConnect = function(data) {
-	users.push(new User(this.id));
-	socket.to(this.id).emit("update songs", {
-		songs : songs
-	});
-}
+  
+  users.push(new User(data.id));
 
+  socket.to(data.id).emit("initialized", {
+    songs : songManager.songs
+  });
+  console.log("Added User: " + data.id);
+}
 var onAddSong = function(data) {
-	songManager.addSong(data);
-	publishSongs();
+  songManager.addSong(data.song);
+  publishSongs();
 }
 
 var onVote = function(data) {
-	songManager.postVote(data);
-	publishSongs();
+  songManager.postVote(data);
+  publishSongs();
 }
 
 var publishSongs = function() {
-	users.forEach(function(user) {
-		sockets[player.id].emit("update songs", {
-			songs : songManager.songs
-		});
-	});
+  users.forEach(function(user) {
+    console.log('publishSongs to user: ', user.id);
+
+    socket.to(user.id).emit("update songs", {
+      songs : songManager.songs
+    });
+  });
 }
+// Send index page html
+app.get('/', function(req, res) {
+  res.sendfile("public/html/index.html");
+});
+// Turn on server
+http.listen(server_port, server_ip_address, function() {
+  console.log("App Listening on " + server_ip_address + ", server_port "
+      + server_port);
+});
 
 setEventHandlers();
-
-app.listen(PORT, function(err) {
-  if (err) {
-    console.log(err);
-    return;
-  }
-  console.log('Listening at http://localhost:' + PORT);
-});
