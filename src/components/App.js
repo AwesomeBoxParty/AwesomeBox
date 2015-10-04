@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
 import { SoundPlayerContainer } from 'react-soundplayer/addons';
 import { PlayButton, Progress, Timer, Icons, Cover } from 'react-soundplayer/components';
 import Sidebar from 'react-sidebar';
@@ -51,6 +52,7 @@ export class App extends Component {
     this.setState({
       playlist: this.state.playlist.concat(track),
       sidebarOpen: false,
+    }, () => {
     });
   }
 

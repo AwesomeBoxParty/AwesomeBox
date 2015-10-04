@@ -9,6 +9,7 @@ export default class SongSwatch extends Component {
 
   handleClick(track) {
     this.props.addToPlaylist(track);
+    this.props.clearSearchString();
   }
 
   render() {
@@ -27,11 +28,11 @@ export default class SongSwatch extends Component {
         style={styles}
         onClick={this.handleClick.bind(this, track)}
       >
-
+      {title}
+      </div>
+    );
         <img
           src={artworkUrl}
         />
-      </div>
-    );
   }
 }

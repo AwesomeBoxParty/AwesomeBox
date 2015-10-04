@@ -40,16 +40,21 @@ export default class SearchSidebar extends Component {
     });
   }
 
-  renderSwatch(track) {
+  clearSearchString() {
+    ReactDOM.findDOMNode(this.refs.searchInput).value = '';
+    this.updateSearchString();
+  }
+
+  renderSwatch(track, index) {
     const props = {
       title: track.title,
       artworkUrl: track.artwork_url,
       duration: track.duration,
       genre: track.genre,
       track: track,
-      key: track.id + Math.random(),
+      key: index,
       addToPlaylist: this.props.addToPlaylist,
-      toggleSidebar: this.props.toggleSidebar,
+      clearSearchString: ::this.clearSearchString,
     };
     return (
 
@@ -66,6 +71,7 @@ export default class SearchSidebar extends Component {
           ref="searchInput"
           name="search"
           placeholder="Search Soundcloud"
+          autofocus={true}
           onChange={::this.updateSearchString}
         />
         <div className="search-results-container">
