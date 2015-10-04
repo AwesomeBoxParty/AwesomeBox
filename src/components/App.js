@@ -9,8 +9,8 @@ import SearchSidebar from './SearchSidebar';
 import Playlist from './Playlist';
 import Player from './Player';
 
-import clientId from '../constants/secrets.js';
-const streamUrl = 'https://api.soundcloud.com/tracks/219980056/stream';
+var clientId = require('../constants/secrets.js');
+clientId = process.env.CLIENT_ID || clientId;
 
 import './App.scss';
 
