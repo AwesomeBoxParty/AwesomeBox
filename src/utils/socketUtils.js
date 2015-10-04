@@ -1,4 +1,5 @@
 var socket;
+var appActions = require('../actions/app-actions');
 
 var socketUtils = {
   socket: socket,
@@ -38,6 +39,7 @@ var socketUtils = {
     // partyThrower role is true for the host, false for party goers:
     this.partyThrower = data.partyThrower;
     console.log('parthThrower: ', data.partyThrower);
+    appActions.receiveUserRole(data.partyThrower);
   },
 
   onUpdateSongs: function(data) {

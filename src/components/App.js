@@ -16,9 +16,19 @@ clientId = process.env.CLIENT_ID || clientId;
 
 import './App.scss';
 
+var context;
+
 var getData = function(){
+  var role;
+
+  if (AppStore.getUserRole()){
+    role = 'thrower';
+  } else {
+    role = 'goer';
+  }
+  console.log('Getting role from appStore: ', role);
   return {
-    songs: AppStore.getSongs()
+    role: role
   };
 };
 
@@ -35,16 +45,18 @@ export class App extends Component {
   }
 
   _onChange() {
-    // update sate from stores
-    // this.setState(getData());
+    // update state from stores
+    console.log('_onChange being called in App');
+    this.setState(getData());
   }
 
   componentDidMount() {
-    AppStore.addChangeListener(this._onChange);
+    context = this;
+    AppStore.addChangeListener(this._onChange.bind(this));
   }
 
   componentWillUnmount() {
-    AppStore.removeChangeListener(this._onChange);
+    AppStore.removeChangeListener(this._onChange.bind(context));
   }
 
   addToPlaylist(track) {
