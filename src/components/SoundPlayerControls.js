@@ -6,12 +6,22 @@ export default class SoundPlayerControls extends Component {
 
   constructor(props) {
     super(props);
+    this.state = {
+      songEnded: false,
+    };
   }
 
   getProgressValue(attrs) {
     return 100 * (this.props.currentTime / this.props.duration);
   }
 
+  handleSongEnd() {
+    if (!this.state.songEnded) {
+      this.setState({
+        songEnded: true
+      }, socketUtils.nextSong);
+    }
+  }
 
   render() {
     console.log('rendering controls');
