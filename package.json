@@ -46,6 +46,7 @@
     "body-parser": "^1.14.1",
     "exports-loader": "^0.6.2",
     "express": "^4.13.3",
+    "flux": "^2.1.1",
     "giphy-api-without-credentials": "^1.0.8",
     "imports-loader": "^0.6.4",
     "normalize.css": "^3.0.3",
