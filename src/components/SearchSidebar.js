@@ -1,24 +1,23 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { debounce } from 'throttle-debounce';
-const giphy = require('giphy-api-without-credentials')();
 import api from '../utils/apiUtils.js';
 
 import SongSwatch from './SongSwatch';
 
 export default class SearchSidebar extends Component {
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     // debouncing prevents searches while user is typing fast
-    this.searchGiphy = debounce(200, this.searchGiphy);
+    this.searchSoundcloud = debounce(200, this.searchSoundcloud);
     this.state = {
       searchString: '',
       searchResults: [],
     };
   }
 
-  searchGiphy(searchString) {
+  searchSoundcloud(searchString) {
 
     if (searchString === '') {
       return this.setState({
@@ -26,8 +25,7 @@ export default class SearchSidebar extends Component {
       });
     }
 
-    api.searchSoundCloud(searchString, (tracks) => {
-      console.log(tracks);
+    api.searchSoundcloud(searchString, (tracks) => {
       this.setState({
         searchResults: tracks
       });
@@ -38,19 +36,25 @@ export default class SearchSidebar extends Component {
     this.setState({
       searchString: ReactDOM.findDOMNode(this.refs.searchInput).value
     }, () => {
-      this.searchGiphy(this.state.searchString);
+      this.searchSoundcloud(this.state.searchString);
     });
   }
 
   renderSwatch(track) {
-    // console.log(track.title);
     const props = {
       title: track.title,
       artworkUrl: track.artwork_url,
       duration: track.duration,
       genre: track.genre,
+      track: track,
+      key: track.id + Math.random(),
+      addToPlaylist: this.props.addToPlaylist,
+      toggleSidebar: this.props.toggleSidebar,
     };
-    return (<SongSwatch {...props} />);
+    return (
+
+      <SongSwatch {...props} />
+    );
   }
 
   render() {

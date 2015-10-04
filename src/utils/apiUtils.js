@@ -5,7 +5,7 @@ SC.initialize({
 });
 
 var apiUtils = {
-  searchSoundCloud: function(str, cb) {
+  searchSoundcloud: function(str, cb) {
     SC.get('/tracks', {
       q: str
     }).then(function(tracks) {
