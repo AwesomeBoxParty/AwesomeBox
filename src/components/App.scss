@@ -41,9 +41,11 @@
   .main {
     @extend %column;
     width: 100%;
-    background: #777;
+    // background: #777;
+    background: #050505;
     max-height: 800px;
     overflow-y: auto;
+    padding: 20px;
   }
 
   .sb-soundplayer-play-icon {
@@ -78,7 +80,51 @@
     font-size: 2em;
   }
 
-  
 
+  .playlist {
+    width: 60%;
+    margin: 0 auto;
+    padding: 0;
+  }
 
+  .track {
+    background-color: #FF6C47;
+    color: #FEE;
+    border-radius: 5px 20px 5px;
+    border: 2px solid #803624;
+    margin: 5px 0;
+
+    a {
+      text-decoration: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    p {
+      margin: 0;
+    }
+
+    img {
+      height: 30px;
+      width: 30px;
+      display: inline-block;
+      border: 2px outset #1A0B07;
+    }
+
+    .voteButtons {
+      display: inline-block;
+      margin: 0 15px;
+      font-size: 30px;
+      // padding-bottom: 5px;
+      a {
+        display: block;
+      }
+    }
+
+    .info {
+      margin: 0 15px;
+      display: inline-block;
+      // padding-bottom: 5px;
+    }
+  }
 }
