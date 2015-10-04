@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import { SoundPlayerContainer } from 'react-soundplayer/addons';
 import { PlayButton, Progress, Timer, Icons, Cover } from 'react-soundplayer/components';
 
 
