@@ -61,11 +61,17 @@ export class App extends Component {
 
   addToPlaylist(track) {
     socketUtils.addSong(track);
-    this.setState({
-      playlist: this.state.playlist.concat(track),
-      sidebarOpen: false,
-    }, () => {
-    });
+    if (!this.state.currentTrack) {
+      this.setState({
+        currentTrack: track,
+        sidebarOpen: false, 
+      });
+    } else {
+      this.setState({
+        playlist: this.state.playlist.concat(track),
+        sidebarOpen: false,
+      });
+    }
   }
 
   toggleSidebar() {
@@ -77,13 +83,13 @@ export class App extends Component {
 
     let player = (
       <Player
-        track={this.state.playlist.length ? this.state.playlist[0] : null}
-      />   
+        track={this.state.currentTrack}
+      />
     );
 
     if (this.state.role === 'goer') {
       player = (
-        <CurrentSong 
+        <CurrentSong
           track={this.state.playlist.length ? this.state.playlist[0] : null}
         />
       );

@@ -50,6 +50,11 @@ export default class SearchSidebar extends Component {
   }
 
   renderSwatch(track, index) {
+
+    if (!track.streamable) {
+      return null;
+    }
+
     const props = {
       title: track.title,
       artworkUrl: track.artwork_url,
