@@ -13,15 +13,6 @@ export default class Player extends Component {
     super(props);
   }
 
-  getProgressValue(attrs) {
-    console.log('Props passed in to getProgressValue: ', attrs);
-    return 50;
-  }
-
-  onTogglePlay(attrs) {
-    console.log('Toggling play with this context: ', attrs);
-  }
-
   render() {
 
     return (
