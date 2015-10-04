@@ -24,6 +24,8 @@
     "babel-plugin-react-transform": "^1.0.5",
     "css-loader": "^0.18.0",
     "file-loader": "^0.8.4",
+    "gulp-livereload": "^3.8.1",
+    "gulp-shell": "^0.4.3",
     "json-loader": "^0.5.3",
     "node-sass": "^3.3.3",
     "object-assign": "^4.0.1",
