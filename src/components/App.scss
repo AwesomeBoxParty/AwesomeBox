@@ -47,6 +47,22 @@
     // background-image: url('../../static/images/logo.svg');
   }
 
+  .sb-soundplayer-play-icon {
+    width: 20px;
+    height: 20px;
+  }
+
+  .progress-bar {
+    height: 10px;
+    width: 400px;
+    background-color: white;
+  }
+
+  .progress-bar-inner {
+    height: 50%;
+    background-color: orange;
+  }
+
   .sidebar {
     @extend %column;
     min-height: 800px;
