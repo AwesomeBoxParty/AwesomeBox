@@ -5,10 +5,10 @@ import Sidebar from 'react-sidebar';
 import socketUtils from '../utils/socketUtils';
 import AppStore from '../stores/app-store';
 
-// import Playlist from './Playlist';
 import SearchSidebar from './SearchSidebar';
 import Playlist from './Playlist';
 import Player from './Player';
+import CurrentSong from './CurrentSong';
 
 var clientId = require('../constants/secrets.js');
 clientId = process.env.CLIENT_ID || clientId;
@@ -29,6 +29,7 @@ export class App extends Component {
       playlist: [],
       currentTrack: null,
       sidebarOpen: false,
+      role: 'thrower'
     };
   }
 
@@ -60,6 +61,20 @@ export class App extends Component {
 
   render() {
 
+    let player = (
+      <Player
+        track={this.state.playlist.length ? this.state.playlist[0] : null}
+      />   
+    );
+
+    if (this.state.role === 'goer') {
+      player = (
+        <CurrentSong 
+          track={this.state.playlist.length ? this.state.playlist[0] : null}
+        />
+      );
+    }
+
     const searchSidebar = (
       <SearchSidebar
         addToPlaylist={::this.addToPlaylist}
@@ -79,9 +94,7 @@ export class App extends Component {
           </header>
 
           <main className="main">
-            <Player
-              track={this.state.playlist.length ? this.state.playlist[0] : null}
-            />
+            {player}
             <Playlist playlist={this.state.playlist} />
           </main>
 

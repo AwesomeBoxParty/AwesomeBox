@@ -12,14 +12,13 @@ export default class Player extends Component {
   }
 
   render() {
-
     return (
       <div className="player">
         <SoundPlayerContainer
           streamUrl={this.props.track ? this.props.track.stream_url : null}
           clientId={clientId}
         >
-          <SoundPlayerControls />
+          <SoundPlayerControls/>
         </SoundPlayerContainer>
       </div>
     )
