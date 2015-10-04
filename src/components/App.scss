@@ -2,14 +2,19 @@
   $sidebar-width: 240px;
 
   .masthead {
-
-    //############################
-    // display: none;
-    //############################
-
-
     background: #eee;
     text-align: center;
+  }
+
+
+  .player {
+    text-align: center;
+    margin: 20px;
+  }
+
+  img {
+    zoom: 2;
+    width: 100%;
   }
 
   h1 {
@@ -43,8 +48,6 @@
     background: #777;
     max-height: 800px;
     overflow-y: auto;
-    // Just demonstrating how you can set a background image to a relative asset
-    // background-image: url('../../static/images/logo.svg');
   }
 
   .sb-soundplayer-play-icon {
@@ -56,10 +59,12 @@
     height: 10px;
     width: 400px;
     background-color: white;
+    margin-left: auto;
+    margin-right: auto;
   }
 
   .progress-bar-inner {
-    height: 50%;
+    height: 100%;
     background-color: orange;
   }
 
@@ -72,18 +77,6 @@
     right: $sidebar-width;
     background: #333;
     overflow: hidden;
-  }
-
-  .footer {
-
-    //############################
-    display: none;
-    //############################
-
-    text-align: center;
-    clear: both;
-    padding: 12px 0;
-    background: #f4f4f4;
   }
 
   .search-input,

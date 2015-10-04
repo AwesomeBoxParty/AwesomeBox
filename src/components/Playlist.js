@@ -8,19 +8,21 @@ export default class Playlist extends Component {
   }
 
   renderTrack(track) {
-    return <PlaylistItem track={track} key={track.id} />
+    return (
+      <PlaylistItem
+        key={track.id}
+        track={track}
+      />
+    )
   }
 
   render() {
     const tracks = this.props.playlist.map(::this.renderTrack);
 
     return (
-      <div>
-        <h3>Playlist</h3>
-        <ul>
-          {tracks}
-        </ul>
-      </div>
+      <ul className="playlist">
+        {tracks}
+      </ul>
     )
   }
 }

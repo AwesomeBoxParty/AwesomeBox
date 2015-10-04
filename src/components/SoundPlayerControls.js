@@ -17,16 +17,16 @@ export default class SoundPlayerControls extends Component {
 
     return (
       <div>
-        <PlayButton 
+        <PlayButton
           soundCloudAudio={this.props.soundCloudAudio}
           playing={this.props.playing}
           seeking={this.props.seeking} />
-        <Progress 
+        <Progress
           className="progress-bar"
           innerClassName="progress-bar-inner"
           soundCloudAudio={this.props.soundCloudAudio}
           value={this.getProgressValue()} />
-        <Timer 
+        <Timer
           className="play-timer"
           duration={this.props.duration}
           currentTime={this.props.currentTime}/>

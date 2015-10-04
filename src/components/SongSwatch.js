@@ -2,9 +2,17 @@ import React, { Component } from 'react';
 
 export default class SongSwatch extends Component {
 
+  constructor(props) {
+    super(props);
+  }
+
+
+  handleClick(track) {
+    this.props.addToPlaylist(track);
+  }
 
   render() {
-    const { title, duration, genre, artworkUrl } = this.props;
+    const { title, duration, genre, artworkUrl, track } = this.props;
 
     const styles = {
       boxSizing: 'border-box',
@@ -15,8 +23,11 @@ export default class SongSwatch extends Component {
     };
 
     return (
-      <div style={styles}>
-        {title}
+      <div
+        style={styles}
+        onClick={this.handleClick.bind(this, track)}
+      >
+
         <img
           src={artworkUrl}
         />
