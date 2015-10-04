@@ -2,6 +2,8 @@ var socket;
 
 var socketUtils = {
   socket: socket,
+  id: 0,
+  partyThrower: false,
 
   init: function() {
     // Setup Socket:
@@ -27,7 +29,15 @@ var socketUtils = {
 
   onConnected: function(data) {
     // RECEIVE LIST OF SONGS FROM SERVER:
-    console.log(data.songs);
+    console.log('songs: ', data.songs);
+
+    // This is the userID, store it somewhere:
+    this.id = data.uId;
+    console.log('socket user Id: ', data.uId)
+
+    // partyThrower role is true for the host, false for party goers:
+    this.partyThrower = data.partyThrower;
+    console.log('parthThrower: ', data.partyThrower);
   },
 
   onUpdateSongs: function(data) {
@@ -41,9 +51,11 @@ var socketUtils = {
     });
   },
   
-  addVote: function(userID, songID, vote) {
+  addVote: function(songID, vote) {
+    var context = this;
+
     socket.emit("vote", {
-      userID : userID,
+      userID : context.id,
       songID : songID,
       vote : vote
     });
