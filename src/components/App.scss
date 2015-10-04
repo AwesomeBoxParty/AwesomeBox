@@ -70,18 +70,9 @@
     font-size: 2em;
   }
 
-}
 
-.SearchSidebar {
-  width: 500px;
-
-  input {
-    width: 100%;
-    font-size: 2em;
-  }
-
-
-  .playlist {
+// GREG'S STYLES
+.playlist {
     width: 60%;
     margin: 0 auto;
     padding: 0;
@@ -126,5 +117,14 @@
       display: inline-block;
       // padding-bottom: 5px;
     }
+  }
+}
+
+.SearchSidebar {
+  width: 500px;
+
+  input {
+    width: 100%;
+    font-size: 2em;
   }
 }
