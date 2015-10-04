@@ -32,7 +32,6 @@ var setEventHandlers = function() {
   socket.on("connect", onInit);
 };
 var onInit = function(client) {
-  console.log('user connected: ', client.id);
   onConnect(client);
   client.on("add song", onAddSong);
   client.on("vote", onVote);
@@ -58,7 +57,7 @@ var onConnect = function(data) {
     partyThrower: partyThrower
   });
 
-  console.log("Added User: " + data.id);
+  console.log('user connected: ', data.id, ' | total connected users: ', users.length);
 }
 var onAddSong = function(data) {
   songManager.addSong(data.song);

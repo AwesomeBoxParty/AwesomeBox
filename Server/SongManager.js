@@ -10,8 +10,10 @@ var SongManager = function() {
 		song.votes = [];
 		song.getVoteNum = function(){
 			var votesToReturn = 0;
-			for (var i = 0; i < votes.length; ++i) {
-				votesToReturn += votes[i].number; // EITHER +1/-1
+			for (var i = 0; i < songs.length; ++i) {
+				   	for (var x = 0; x < songs[i].votes.length; ++x) {
+								votesToReturn += songs[i].votes[x].number; // EITHER +1/-1
+						}
 			}
 			return votesToReturn;
 		}

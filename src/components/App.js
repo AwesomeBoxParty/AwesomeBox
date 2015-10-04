@@ -9,7 +9,7 @@ import SearchSidebar from './SearchSidebar';
 import Playlist from './Playlist';
 import Player from './Player';
 
-import clientId from '../constants/secrets.js';
+var clientId = require('../constants/secrets.js');
 clientId = process.env.CLIENT_ID || clientId;
 
 import './App.scss';
