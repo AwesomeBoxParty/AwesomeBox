@@ -11,6 +11,12 @@ export default class SoundPlayerControls extends Component {
     };
   }
 
+  componentDidUpdate(prevProps) {
+    if (!prevProps.playing) {
+      prevProps.soundCloudAudio.play();
+    }
+  }
+
   getProgressValue(attrs) {
     return 100 * (this.props.currentTime / this.props.duration);
   }
@@ -24,7 +30,6 @@ export default class SoundPlayerControls extends Component {
   }
 
   render() {
-    console.log('rendering controls');
     return (
       <div>
         <PlayButton
