@@ -6,6 +6,17 @@
     text-align: center;
   }
 
+
+  .player {
+    text-align: center;
+    margin: 20px;
+  }
+
+  img {
+    zoom: 2;
+    width: 100%;
+  }
+
   h1 {
     margin: 0;
     padding: 10px;
@@ -48,10 +59,12 @@
     height: 10px;
     width: 400px;
     background-color: white;
+    margin-left: auto;
+    margin-right: auto;
   }
 
   .progress-bar-inner {
-    height: 50%;
+    height: 100%;
     background-color: orange;
   }
 

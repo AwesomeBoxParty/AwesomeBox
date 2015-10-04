@@ -20,12 +20,9 @@ export default class Playlist extends Component {
     const tracks = this.props.playlist.map(::this.renderTrack);
 
     return (
-      <div>
-        <h3>Playlist</h3>
-        <ul>
-          {tracks}
-        </ul>
-      </div>
+      <ul className="playlist">
+        {tracks}
+      </ul>
     )
   }
 }

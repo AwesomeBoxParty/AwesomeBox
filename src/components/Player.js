@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import { SoundPlayerContainer } from 'react-soundplayer/addons';
 
 import clientId from '../constants/secrets.js';
-const streamUrl = 'https://api.soundcloud.com/tracks/219980056/stream';
 
 import SoundPlayerControls from './SoundPlayerControls';
 
@@ -15,9 +14,9 @@ export default class Player extends Component {
   render() {
 
     return (
-      <div>
+      <div className="player">
         <SoundPlayerContainer
-          streamUrl={streamUrl}
+          streamUrl={this.props.track ? this.props.track.stream_url : null}
           clientId={clientId}
         >
           <SoundPlayerControls />

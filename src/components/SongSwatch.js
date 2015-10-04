@@ -28,7 +28,6 @@ export default class SongSwatch extends Component {
         onClick={this.handleClick.bind(this, track)}
       >
 
-        {genre}
         <img
           src={artworkUrl}
         />
