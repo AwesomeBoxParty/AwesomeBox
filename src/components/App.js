@@ -42,6 +42,13 @@ export class App extends Component {
 
   render() {
 
+  getProgressValue(audioObj) {
+    console.log("Audio object: ", audioObj);
+    return 50;
+  }
+
+
+  render() {
     return (
       <div className="App">
         <header className="masthead">
@@ -55,6 +62,19 @@ export class App extends Component {
 
           <main className="main">
             <Playlist playlist={this.state.playlist} />
+            <SoundPlayerContainer
+              streamUrl={streamUrl}
+              clientId={clientId}
+            >
+              <PlayButton />
+              <Progress
+                className="progress-bar"
+                innerClassName="progress-bar-inner"
+                value={ this.getProgressValue(this.props) }
+                soundCloudAudio={this.props.soundCloudAudio}/>
+              <Timer />
+
+            </SoundPlayerContainer>
           </main>
 
           <aside className="sidebar">
