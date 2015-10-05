@@ -22,17 +22,28 @@ export default class PlaylistItem extends Component {
 
   render() {
     const track = this.props.track;
+    var image;
+    if (track.artwork_url) {
+      image = <img src={track.artwork_url} />
+    } else {
+      image = <div />;
+    }
 
     return (
       <li>
         <div className='track'>
-          <img src={track.artwork_url} />
+          {image}
           <div className='voteButtons'>
-            <a href='#' onClick={::this.handleClick}>❤</a>
+            <a
+              href='#'
+              onClick={::this.handleClick}
+              className={`liked-${this.state.liked}`}
+            >
+                ❤
+            </a>
           </div>
           <div className='info'>
-            <p>Title: <a href={track.permalink_url}>{track.title}</a></p>
-            <p>Artist: <a href={track.user.permalink_url}>{track.user.username}</a></p>
+            <p><a href={track.permalink_url}>{track.title}</a></p>
           </div>
         </div>
       </li>
