@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import { SoundPlayerContainer } from 'react-soundplayer/addons';
 import { PlayButton, Progress, Timer, Icons, Cover } from 'react-soundplayer/components';
 import Sidebar from 'react-sidebar';
 import socketUtils from '../utils/socketUtils';
@@ -74,6 +73,32 @@ export class App extends Component {
     }
   }
 
+  goToNextSong() {
+    let playlist = this.state.playlist.slice();
+        
+    if (playlist.length > 0) {
+      let nextSong = playlist.shift();
+
+      this.setState({
+        currentTrack: nextSong,
+        playlist: playlist
+      });
+    } else {
+      this.setState({
+        currentTrack: null,
+      })
+    }
+  }
+
+  // we pass this method into SoundPlayerContainer as onStopTrack
+  // it gets called when the song ends or when the song pauses
+  // so we need to check & only progress to next song when the song has ended
+  handleSongEnd(soundCloudAudio) {
+    if (soundCloudAudio.audio.currentTime === soundCloudAudio.audio.duration) {
+      this.goToNextSong();
+    }
+  }
+
   toggleSidebar() {
     const sidebarOpen = !this.state.sidebarOpen;
     this.setState({ sidebarOpen });
@@ -84,13 +109,14 @@ export class App extends Component {
     let player = (
       <Player
         track={this.state.currentTrack}
+        handleSongEnd={this.handleSongEnd.bind(this)}
       />
     );
 
     if (this.state.role === 'goer') {
       player = (
         <CurrentSong
-          track={this.state.playlist.length ? this.state.playlist[0] : null}
+          track={this.state.currentTrack}
         />
       );
     }
@@ -118,7 +144,6 @@ export class App extends Component {
             {player}
             <Playlist playlist={this.state.playlist} />
           </main>
-
 
         </div>
       </Sidebar>

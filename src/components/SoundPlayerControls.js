@@ -21,14 +21,6 @@ export default class SoundPlayerControls extends Component {
     return 100 * (this.props.currentTime / this.props.duration);
   }
 
-  handleSongEnd() {
-    if (!this.state.songEnded) {
-      this.setState({
-        songEnded: true
-      }, socketUtils.nextSong);
-    }
-  }
-
   render() {
     return (
       <div>

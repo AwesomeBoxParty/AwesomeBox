@@ -46,8 +46,9 @@ var onInit = function(client) {
   });
 };
 var onConnect = function(data) {
-  //set the role for the client
-  var partyThrower = users.length < 1;
+  //set the role for the client 
+  //TEMP: hardcode everyone to partyThrower to simplify testing
+  var partyThrower = true;
 
   users.push(new User(data.id));
 
