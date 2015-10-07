@@ -28,6 +28,7 @@ export default class Player extends Component {
         <SoundPlayerContainer
           streamUrl={this.props.track ? this.props.track.stream_url : null}
           clientId={clientId}
+          onStopTrack={this.props.handleSongEnd}
         >
           <SoundPlayerControls/>
         </SoundPlayerContainer>
