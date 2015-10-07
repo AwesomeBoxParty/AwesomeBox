@@ -64,7 +64,7 @@ export class App extends Component {
     if (!this.state.currentTrack) {
       this.setState({
         currentTrack: track,
-        sidebarOpen: false, 
+        sidebarOpen: false,
       });
     } else {
       this.setState({
