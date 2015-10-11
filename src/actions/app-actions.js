@@ -6,17 +6,32 @@ module.exports = {
   //////////////////////////////////
   // USER TRIGGERED ACTIONS
   //////////////////////////////////
-  exampleFunction: function (data) {
-    //
+  addSong: function (data) {
+    AppDispatcher.dispatch({
+      type: AppConstants.ADD_SONG,
+      data: data
+    });
   },
+
+  goToNextSong: function () {
+    AppDispatcher.dispatch({
+      type: AppConstants.NEXT_SONG,
+      data: null
+    });
+  },  
 
 
   //////////////////////////////////
   // PROGRAM TRIGGERED ACTIONS
   //////////////////////////////////
-  receiveUserRole: function (data) {
-    console.log('app-actions: receiving user role --', data);
+  receiveSongData: function (data) {
+    AppDispatcher.dispatch({
+      type: AppConstants.RECEIVE_SONG_DATA,
+      data: data
+    });
+  },
 
+  receiveUserRole: function (data) {
     AppDispatcher.dispatch({
       type: AppConstants.RECEIVE_USER_ROLE,
       data: data

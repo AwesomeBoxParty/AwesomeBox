@@ -9,18 +9,10 @@ export default class Player extends Component {
 
   constructor(props) {
     super(props);
-  //   this.state = {
-  //     playing: this.props.track ? true : false
-  //   };
+    this.state = {
+      playing: this.props.track ? true : false
+    };
   }
-  //
-  // componentDidUpdate() {
-  //   if (this.props.track) {
-  //     this.setState({
-  //       playing: true
-  //     });
-  //   }
-  // }
 
   render() {
     return (
