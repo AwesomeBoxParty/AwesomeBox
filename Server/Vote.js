@@ -1,4 +1,4 @@
-var Votes = function(user , number) {
+var Vote = function(user , number) {
 	var number = number;
 	var user = user;
 
@@ -17,4 +17,4 @@ var Votes = function(user , number) {
         }
 	}
 };
-exports.Votes = Votes;
+exports.Vote = Vote;

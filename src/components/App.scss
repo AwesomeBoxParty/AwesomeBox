@@ -16,8 +16,6 @@
     margin-bottom: .5em;
   }
 
-
-
   .play-button {
     width: 2em;
     height: 2em;
@@ -31,6 +29,12 @@
   .player {
     text-align: center;
     margin: 20px;
+  }
+
+  .current-song {
+    text-align: center;
+    margin: 20px;
+    font-size: 1.5em;
   }
 
   img {
@@ -69,7 +73,7 @@
   .play-timer {
     font-size: 2em;
     font-weight: 100;
-    color: #777;
+    color: black;
   }
 
 
@@ -117,9 +121,13 @@
       display: inline-block;
       margin: 0 15px;
       font-size: 2em;
+      text-align: center;
       // padding-bottom: 5px;
       a {
         display: block;
+      }
+      span.voteCount {
+        font-size: 0.5em;
       }
 
       .liked-true {

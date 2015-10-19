@@ -64,6 +64,8 @@ var onVote = function(data) {
 var publishSongs = function() {
   console.log('publishSongs to all users: ', users.length, ' users');
 
+  songManager.calcVotes();
+
   io.emit("update songs", {
     songs : songManager.songs
   });

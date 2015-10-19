@@ -23,17 +23,19 @@ module.exports = {
     });
   },  
 
+  upVote: function (trackId) {
+    var socketUtils = require('../utils/socketUtils');
+    socketUtils.addVote(trackId, 1)
+  },
+
+  downVote: function (trackId) {
+    var socketUtils = require('../utils/socketUtils');
+    socketUtils.addVote(trackId, -1)
+  },
 
   //////////////////////////////////
   // PROGRAM TRIGGERED ACTIONS
   //////////////////////////////////
-  autoPlay: function () {
-    AppDispatcher.dispatch({
-      type: AppConstants.AUTO_PLAY,
-      data: null
-    });
-  },
-
   receiveSongData: function (data) {
     AppDispatcher.dispatch({
       type: AppConstants.RECEIVE_SONG_DATA,
