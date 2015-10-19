@@ -3,7 +3,7 @@ var express = require('express');
 var app = express();
 var http = require('http').Server(app);
 var path = require('path');
-var socket = require('socket.io')(http);
+var io = require('socket.io')(http);
 var server_port = process.env.PORT || 8080;
 var bodyParser = require('body-parser')
 var fs = require('fs');
@@ -28,57 +28,67 @@ var findUserIndex = function(id) {
 
 // SETUP:
 app.use(express.static(path.join(__dirname, '../dist')));
-var setEventHandlers = function() {
-  socket.on("connect", onInit);
-};
-var onInit = function(client) {
-  onConnect(client);
-  client.on("add song", onAddSong);
-  client.on("vote", onVote);
 
-  client.on('disconnect', function() {
-    console.log('user disconnected: ', client.id);
-    var index = findUserIndex(client.id);
-    if (index >=0) {
-      users.splice(index, 1);
-      console.log('removed user: ', client.id, ' | total connected users: ', users.length);
-    }
-  });
-};
-var onConnect = function(data) {
+var onConnect = function(socket) {
   //set the role for the client 
   //TEMP: hardcode everyone to partyThrower to simplify testing
-  var partyThrower = true;
+  var partyThrower = users.length < 1;
 
-  users.push(new User(data.id));
+  users.push(new User(socket.id));
 
-  socket.to(data.id).emit("initialized", {
+  socket.emit("initialized", {
     songs : songManager.songs,
-    uId : data.id,
+    uId : socket.id,
     partyThrower: partyThrower
   });
 
-  console.log('user connected: ', data.id, ' | total connected users: ', users.length);
-}
+  console.log('user connected: ', socket.id, ' | total connected users: ', users.length);
+};
+
 var onAddSong = function(data) {
+  console.log('add song:', data.song.title);
   songManager.addSong(data.song);
+  publishSongs();
+};
+
+var onNextSong = function () {
+  songManager.nextSong();
   publishSongs();
 }
 
 var onVote = function(data) {
   songManager.postVote(data);
   publishSongs();
-}
+};
 
 var publishSongs = function() {
-  users.forEach(function(user) {
-    console.log('publishSongs to user: ', user.id);
+  console.log('publishSongs to all users: ', users.length, ' users');
 
-    socket.to(user.id).emit("update songs", {
-      songs : songManager.songs
-    });
+  io.emit("update songs", {
+    songs : songManager.songs
   });
-}
+};
+
+var onInit = function(socket) {
+  console.log('attaching socket event handlers');
+  onConnect(socket);
+  socket.on("add song", onAddSong);
+  socket.on("next song", onNextSong);
+  socket.on("vote", onVote);
+
+  socket.on('disconnect', function() {
+    console.log('user disconnected: ', socket.id);
+    var index = findUserIndex(socket.id);
+    if (index >=0) {
+      users.splice(index, 1);
+      console.log('removed user: ', socket.id, ' | total connected users: ', users.length);
+    }
+  });
+};
+
+// Initialize socket.io channel
+io.on("connection", onInit);
+
 // Send index page html
 app.get('/', function(req, res) {
   res.sendfile("public/html/index.html");
@@ -88,4 +98,3 @@ http.listen(server_port,  function() {
   console.log("App Listening on server_port: "+ server_port);
 });
 
-setEventHandlers();

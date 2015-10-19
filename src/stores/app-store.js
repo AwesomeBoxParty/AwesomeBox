@@ -3,45 +3,81 @@ var AppConstants = require("../constants/app-constants");
 var assign = require("react/lib/Object.assign");
 var EventEmitter = require('events').EventEmitter;
 
-var _songs = [];
+var _currentTrack = null;
+var _playlist = [];
 var _partyThrower = false;
+var _playing = false;
+var _autoPlaying = false;
 
 
-var _receiveSongData = function (data) {
-  _songs = data;
+function _addSong (data) {
+  var track = data;
+
+  if (!_currentTrack) {
+    _currentTrack = track;
+  } else {
+    _playlist = _playlist.concat(track);
+  }
+
 };
 
-var _otherFunction = function () {
-  //handles some other dispatched data
+function _goToNextSong() {
+  console.log('_playlist: ', _playlist);
+  _currentTrack = _playlist.shift();
+  if (_currentTrack === null) {
+    _autoPlaying = false;
+  } else {
+    _playing = true;
+  }
+}
 
+function _receiveSongData (data) {
+  _currentTrack = data.shift();
+  _playlist = data;
 };
 
-var _receiveUserRole = function(data) {
-  console.log('Calling _receiveUserRole in AppStore:', data);
+function _receiveUserRole (data) {
   _partyThrower = data;
 };
 
+function _togglePlaying(data) {
+  _playing = data || !_playing;
+}
+
+function _autoPlay() {
+  if (_autoPlaying === false) {
+    _autoPlaying = true;
+    _playing = true;
+  }
+}
+
+
 var AppStore = assign({},EventEmitter.prototype, {
 
-  getSongs: function() {
-    return _songs;
+  getCurrentTrack: function() {
+    return _currentTrack;
+  },
+
+  getPlaylist: function() {
+    return _playlist;
   },
 
   getUserRole: function() {
-    console.log('getUserRole being called in AppStore');
     return _partyThrower;
+  },
+
+  getPlaying: function () {
+    return _playing;
   },
 
   /////////////////////////////////////////////////
   // DATA STORE FUNCTIONS
   /////////////////////////////////////////////////
   emitChange: function() {
-    console.log('Emitting change');
     this.emit('change');
   },
 
   addChangeListener: function(callback) {
-    console.log('change listener added:', callback);
     this.on('change', callback);
   },
 
@@ -52,25 +88,42 @@ var AppStore = assign({},EventEmitter.prototype, {
 });
 
 
-
 AppStore.dispatchToken = AppDispatcher.register(function(action) {
 
   switch(action.type) {
 
-    case AppConstants.LOAD_SONG_DATA:
+    case AppConstants.RECEIVE_SONG_DATA:
       _receiveSongData(action.data);
       AppStore.emitChange();
       break;
 
+    case AppConstants.ADD_SONG:
+      _addSong(action.data);
+      AppStore.emitChange();
+      break;
+
+    case AppConstants.NEXT_SONG:
+      _goToNextSong();
+      AppStore.emitChange();
+      break;
+
     case AppConstants.RECEIVE_USER_ROLE:
-      console.log('App store: receiving user role -- ', action.data);
       _receiveUserRole(action.data);
+      AppStore.emitChange();
+      break;
+
+    case AppConstants.TOGGLE_PLAYING:
+      _togglePlaying(action.data);
+      AppStore.emitChange();
+      break;
+
+    case AppConstants.AUTO_PLAY:
+      _autoPlay();
       AppStore.emitChange();
       break;
 
     default:
   }
 });
-
 
 module.exports = AppStore;

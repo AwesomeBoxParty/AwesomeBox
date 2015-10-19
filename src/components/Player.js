@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import { SoundPlayerContainer } from 'react-soundplayer/addons';
+import AppActions from '../actions/app-actions';
 
 import clientId from '../constants/secrets.js';
 
@@ -9,18 +10,15 @@ export default class Player extends Component {
 
   constructor(props) {
     super(props);
-  //   this.state = {
-  //     playing: this.props.track ? true : false
-  //   };
   }
-  //
-  // componentDidUpdate() {
-  //   if (this.props.track) {
-  //     this.setState({
-  //       playing: true
-  //     });
-  //   }
-  // }
+
+  handleStart() {
+    AppActions.togglePlaying(true);
+  }
+
+  handlePause() {
+    AppActions.togglePlaying(false);
+  }
 
   render() {
     return (
@@ -28,6 +26,8 @@ export default class Player extends Component {
         <SoundPlayerContainer
           streamUrl={this.props.track ? this.props.track.stream_url : null}
           clientId={clientId}
+          onStartTrack={this.handleStart}
+          onPauseTrack={this.handlePause}
           onStopTrack={this.props.handleSongEnd}
         >
           <SoundPlayerControls/>

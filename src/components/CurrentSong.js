@@ -11,7 +11,7 @@ export default class CurrentSong extends Component {
     return (
       <div className="current-song">
         Now Playing:
-        <div className="song-title">Hard-Coded Song Title, feat. Aaliyah</div>
+        <div className="song-title">{this.props.track ? this.props.track.title : null}</div>
       </div>
     )
   }

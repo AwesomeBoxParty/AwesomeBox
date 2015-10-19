@@ -4,6 +4,7 @@ import { PlayButton, Progress, Timer, Icons, Cover } from 'react-soundplayer/com
 import Sidebar from 'react-sidebar';
 import socketUtils from '../utils/socketUtils';
 import AppStore from '../stores/app-store';
+import AppActions from '../actions/app-actions';
 
 import SearchSidebar from './SearchSidebar';
 import Playlist from './Playlist';
@@ -25,9 +26,11 @@ var getData = function(){
   } else {
     role = 'goer';
   }
-  console.log('Getting role from appStore: ', role);
+
   return {
-    role: role
+    role: role,
+    playlist: AppStore.getPlaylist(),
+    currentTrack: AppStore.getCurrentTrack(),
   };
 };
 
@@ -36,16 +39,15 @@ export class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      role: 'goer',
       playlist: [],
       currentTrack: null,
-      sidebarOpen: false,
-      role: 'thrower'
+      sidebarOpen: false
     };
   }
 
   _onChange() {
     // update state from stores
-    console.log('_onChange being called in App');
     this.setState(getData());
   }
 
@@ -59,44 +61,16 @@ export class App extends Component {
   }
 
   addToPlaylist(track) {
-    socketUtils.addSong(track);
-    if (!this.state.currentTrack) {
-      this.setState({
-        currentTrack: track,
-        sidebarOpen: false,
-      });
-    } else {
-      this.setState({
-        playlist: this.state.playlist.concat(track),
-        sidebarOpen: false,
-      });
-    }
-  }
-
-  goToNextSong() {
-    let playlist = this.state.playlist.slice();
-        
-    if (playlist.length > 0) {
-      let nextSong = playlist.shift();
-
-      this.setState({
-        currentTrack: nextSong,
-        playlist: playlist
-      });
-    } else {
-      this.setState({
-        currentTrack: null,
-      })
-    }
+    AppActions.addSong(track);
+    AppActions.autoPlay();
+    this.setState({
+      sidebarOpen: false
+    });
   }
 
   // we pass this method into SoundPlayerContainer as onStopTrack
-  // it gets called when the song ends or when the song pauses
-  // so we need to check & only progress to next song when the song has ended
   handleSongEnd(soundCloudAudio) {
-    if (soundCloudAudio.audio.currentTime === soundCloudAudio.audio.duration) {
-      this.goToNextSong();
-    }
+    AppActions.goToNextSong();
   }
 
   toggleSidebar() {

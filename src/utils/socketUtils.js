@@ -1,5 +1,5 @@
 var socket;
-var appActions = require('../actions/app-actions');
+var AppActions = require('../actions/app-actions');
 
 var socketUtils = {
   socket: socket,
@@ -11,8 +11,6 @@ var socketUtils = {
     socket = io.connect();
     // Setup Event Handlers:
     this.setEventHandlers();
-    // Start Connection:
-    this.connect();
   },
 
   setEventHandlers: function() {
@@ -20,15 +18,9 @@ var socketUtils = {
     socket.on("initialized", this.onConnected);
     socket.on("update songs", this.onUpdateSongs);
   },
-  
-  connect: function() {
-    // Connect to Server:
-    socket.emit("connect", {
-      name : "User Name"
-    });
-  },
 
   onConnected: function(data) {
+
     // RECEIVE LIST OF SONGS FROM SERVER:
     console.log('songs: ', data.songs);
 
@@ -39,18 +31,25 @@ var socketUtils = {
     // partyThrower role is true for the host, false for party goers:
     this.partyThrower = data.partyThrower;
     console.log('parthThrower: ', data.partyThrower);
-    appActions.receiveUserRole(data.partyThrower);
+    
+    AppActions.receiveUserRole(data.partyThrower);
+    AppActions.receiveSongData(data.songs);
   },
 
   onUpdateSongs: function(data) {
     // RECEIVE LIST OF SONGS FROM SERVER:
-    console.log(data.songs);
+    console.log('updated song list from server: ', data.songs);
+    AppActions.receiveSongData(data.songs);
   },
   
   addSong: function(song) {
     socket.emit("add song", {
       song : song
     });
+  },
+
+  nextSong: function () {
+    socket.emit('next song');
   },
   
   addVote: function(songID, vote) {
