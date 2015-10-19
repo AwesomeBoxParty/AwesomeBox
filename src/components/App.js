@@ -62,7 +62,6 @@ export class App extends Component {
 
   addToPlaylist(track) {
     AppActions.addSong(track);
-    AppActions.autoPlay();
     this.setState({
       sidebarOpen: false
     });
@@ -81,17 +80,22 @@ export class App extends Component {
   render() {
 
     let player = (
-      <Player
+      <CurrentSong
         track={this.state.currentTrack}
-        handleSongEnd={this.handleSongEnd.bind(this)}
       />
     );
 
-    if (this.state.role === 'goer') {
+    if (this.state.role === 'thrower') {
       player = (
-        <CurrentSong
-          track={this.state.currentTrack}
-        />
+        <div>
+          <CurrentSong
+            track={this.state.currentTrack}
+          />
+          <Player
+            track={this.state.currentTrack}
+            handleSongEnd={this.handleSongEnd.bind(this)}
+          />
+        </div>
       );
     }
 

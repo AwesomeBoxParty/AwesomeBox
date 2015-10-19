@@ -15,6 +15,7 @@ function _addSong (data) {
 
   if (!_currentTrack) {
     _currentTrack = track;
+    _playing = true;
   } else {
     _playlist = _playlist.concat(track);
   }
@@ -24,9 +25,7 @@ function _addSong (data) {
 function _goToNextSong() {
   console.log('_playlist: ', _playlist);
   _currentTrack = _playlist.shift();
-  if (_currentTrack === null) {
-    _autoPlaying = false;
-  } else {
+  if (_currentTrack) {
     _playing = true;
   }
 }
@@ -34,6 +33,12 @@ function _goToNextSong() {
 function _receiveSongData (data) {
   _currentTrack = data.shift();
   _playlist = data;
+  console.log('=========>Received updated song data from server');
+  console.log('currentTrack: ', _currentTrack ? _currentTrack.title : 'none');
+  console.log('playlist: ', _playlist);
+  if (_currentTrack) {
+    _playing = true;
+  }
 };
 
 function _receiveUserRole (data) {
@@ -42,13 +47,6 @@ function _receiveUserRole (data) {
 
 function _togglePlaying(data) {
   _playing = data || !_playing;
-}
-
-function _autoPlay() {
-  if (_autoPlaying === false) {
-    _autoPlaying = true;
-    _playing = true;
-  }
 }
 
 
@@ -114,11 +112,6 @@ AppStore.dispatchToken = AppDispatcher.register(function(action) {
 
     case AppConstants.TOGGLE_PLAYING:
       _togglePlaying(action.data);
-      AppStore.emitChange();
-      break;
-
-    case AppConstants.AUTO_PLAY:
-      _autoPlay();
       AppStore.emitChange();
       break;
 

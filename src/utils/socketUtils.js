@@ -38,7 +38,6 @@ var socketUtils = {
 
   onUpdateSongs: function(data) {
     // RECEIVE LIST OF SONGS FROM SERVER:
-    console.log('updated song list from server: ', data.songs);
     AppActions.receiveSongData(data.songs);
   },
   
@@ -53,13 +52,11 @@ var socketUtils = {
   },
   
   addVote: function(songID, vote) {
-    var context = this;
-
-    socket.emit("vote", {
-      userID : context.id,
-      songID : songID,
-      vote : vote
-    });
+    var voteObj = { userID : this.id,
+                    songID : songID,
+                    vote : vote
+                  };
+    socket.emit("vote", voteObj);
   }
 
 }

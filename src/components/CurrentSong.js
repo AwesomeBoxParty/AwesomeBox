@@ -10,8 +10,7 @@ export default class CurrentSong extends Component {
   render() {
     return (
       <div className="current-song">
-        Now Playing:
-        <div className="song-title">{this.props.track ? this.props.track.title : null}</div>
+        <div className="song-title">Now Playing: {this.props.track ? this.props.track.title : null}</div>
       </div>
     )
   }
