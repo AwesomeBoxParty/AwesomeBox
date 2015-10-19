@@ -22,6 +22,10 @@ var SongManager = function() {
 		sort();
 	}
 
+	var nextSong = function () {
+		songs.shift();
+	}
+
 	var sort = function() {
 		songs.sort(compareVotes);
 	}
@@ -58,6 +62,7 @@ var SongManager = function() {
 
 	return {
 		addSong : addSong,
+		nextSong: nextSong,
 		postVote : postVote,
 		sort : sort,
 		get songs() {

@@ -6,6 +6,8 @@ var EventEmitter = require('events').EventEmitter;
 var _currentTrack = null;
 var _playlist = [];
 var _partyThrower = false;
+var _playing = false;
+var _autoPlaying = false;
 
 
 function _addSong (data) {
@@ -21,15 +23,16 @@ function _addSong (data) {
 
 function _goToNextSong() {
   console.log('_playlist: ', _playlist);
-  if (_playlist.length > 0) {
-    _currentTrack = _playlist.shift();
+  _currentTrack = _playlist.shift();
+  if (_currentTrack === null) {
+    _autoPlaying = false;
   } else {
-    _currentTrack = null;
+    _playing = true;
   }
 }
 
 function _receiveSongData (data) {
-  console.log('receiveSongData: ', data);
+  _currentTrack = data.shift();
   _playlist = data;
 };
 
@@ -37,6 +40,16 @@ function _receiveUserRole (data) {
   _partyThrower = data;
 };
 
+function _togglePlaying(data) {
+  _playing = data || !_playing;
+}
+
+function _autoPlay() {
+  if (_autoPlaying === false) {
+    _autoPlaying = true;
+    _playing = true;
+  }
+}
 
 
 var AppStore = assign({},EventEmitter.prototype, {
@@ -51,6 +64,10 @@ var AppStore = assign({},EventEmitter.prototype, {
 
   getUserRole: function() {
     return _partyThrower;
+  },
+
+  getPlaying: function () {
+    return _playing;
   },
 
   /////////////////////////////////////////////////
@@ -95,9 +112,18 @@ AppStore.dispatchToken = AppDispatcher.register(function(action) {
       AppStore.emitChange();
       break;
 
+    case AppConstants.TOGGLE_PLAYING:
+      _togglePlaying(action.data);
+      AppStore.emitChange();
+      break;
+
+    case AppConstants.AUTO_PLAY:
+      _autoPlay();
+      AppStore.emitChange();
+      break;
+
     default:
   }
 });
-
 
 module.exports = AppStore;

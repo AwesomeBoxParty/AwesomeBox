@@ -30,7 +30,7 @@ var getData = function(){
   return {
     role: role,
     playlist: AppStore.getPlaylist(),
-    currentTrack: AppStore.getCurrentTrack()
+    currentTrack: AppStore.getCurrentTrack(),
   };
 };
 
@@ -61,20 +61,16 @@ export class App extends Component {
   }
 
   addToPlaylist(track) {
-    socketUtils.addSong(track);
     AppActions.addSong(track);
+    AppActions.autoPlay();
     this.setState({
       sidebarOpen: false
     });
   }
 
   // we pass this method into SoundPlayerContainer as onStopTrack
-  // it gets called when the song ends or when the song pauses
-  // so we need to check & only progress to next song when the song has ended
   handleSongEnd(soundCloudAudio) {
-    if (soundCloudAudio.audio.currentTime === soundCloudAudio.audio.duration) {
-      AppActions.goToNextSong();
-    }
+    AppActions.goToNextSong();
   }
 
   toggleSidebar() {

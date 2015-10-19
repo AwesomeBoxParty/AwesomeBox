@@ -29,13 +29,51 @@ var findUserIndex = function(id) {
 // SETUP:
 app.use(express.static(path.join(__dirname, '../dist')));
 
-var setEventHandlers = function() {
-  io.on("connect", onInit);
+var onConnect = function(socket) {
+  //set the role for the client 
+  //TEMP: hardcode everyone to partyThrower to simplify testing
+  var partyThrower = users.length < 1;
+
+  users.push(new User(socket.id));
+
+  socket.emit("initialized", {
+    songs : songManager.songs,
+    uId : socket.id,
+    partyThrower: partyThrower
+  });
+
+  console.log('user connected: ', socket.id, ' | total connected users: ', users.length);
+};
+
+var onAddSong = function(data) {
+  console.log('add song:', data.song.title);
+  songManager.addSong(data.song);
+  publishSongs();
+};
+
+var onNextSong = function () {
+  songManager.nextSong();
+  publishSongs();
+}
+
+var onVote = function(data) {
+  songManager.postVote(data);
+  publishSongs();
+};
+
+var publishSongs = function() {
+  console.log('publishSongs to all users: ', users.length, ' users');
+
+  io.emit("update songs", {
+    songs : songManager.songs
+  });
 };
 
 var onInit = function(socket) {
+  console.log('attaching socket event handlers');
   onConnect(socket);
   socket.on("add song", onAddSong);
+  socket.on("next song", onNextSong);
   socket.on("vote", onVote);
 
   socket.on('disconnect', function() {
@@ -48,39 +86,8 @@ var onInit = function(socket) {
   });
 };
 
-var onConnect = function(socket) {
-  //set the role for the client 
-  //TEMP: hardcode everyone to partyThrower to simplify testing
-  var partyThrower = true;
-
-  users.push(new User(socket.id));
-
-  socket.emit("initialized", {
-    songs : songManager.songs,
-    uId : socket.id,
-    partyThrower: partyThrower
-  });
-
-  console.log('user connected: ', socket.id, ' | total connected users: ', users.length);
-}
-
-var onAddSong = function(data) {
-  songManager.addSong(data.song);
-  publishSongs();
-}
-
-var onVote = function(data) {
-  songManager.postVote(data);
-  publishSongs();
-}
-
-var publishSongs = function() {
-  console.log('publishSongs to all users: ', userslength, ' users');
-
-  io.emit("update songs", {
-    songs : songManager.songs
-  });
-}
+// Initialize socket.io channel
+io.on("connection", onInit);
 
 // Send index page html
 app.get('/', function(req, res) {
@@ -91,4 +98,3 @@ http.listen(server_port,  function() {
   console.log("App Listening on server_port: "+ server_port);
 });
 
-setEventHandlers();

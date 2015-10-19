@@ -1,5 +1,15 @@
 import React, {Component} from 'react';
 import { PlayButton, Progress, Timer, Icons, Cover } from 'react-soundplayer/components';
+import AppStore from '../stores/app-store';
+
+
+var context;
+
+var getData = function(){
+  return {
+    playing: AppStore.getPlaying()
+  };
+};
 
 
 export default class SoundPlayerControls extends Component {
@@ -8,11 +18,27 @@ export default class SoundPlayerControls extends Component {
     super(props);
     this.state = {
       songEnded: false,
+      playing: false
     };
   }
 
-  componentDidUpdate(prevProps) {
-    if (!prevProps.playing) {
+  _onChange() {
+    // update state from stores
+    this.setState(getData());
+  }
+
+  componentDidMount() {
+    context = this;
+    AppStore.addChangeListener(this._onChange.bind(this));
+  }
+
+  componentWillUnmount() {
+    AppStore.removeChangeListener(this._onChange.bind(context));
+  }
+
+  //This block enables auto-play
+  componentDidUpdate(prevProps, prevState) {
+    if ((this.state.playing) && (this.state.playing !== prevState.playing)) {
       prevProps.soundCloudAudio.play();
     }
   }
